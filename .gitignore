@@ -1,0 +1,4 @@
+# Mac file system files
+*.DS_Store
+# jupyter notebook autosaving files
+.ipynb_checkpoints
