@@ -13,7 +13,7 @@ def do_upload():
     filename = request.forms.get('filename')
     upload = request.files.get('files')
     name, ext = os.path.splitext(filename)
-    if ext not in ('.mol', '.mol2', '.sdf','.smi'):
+    if ext not in ['.sdf']:
         print('File extension not allowed')
         return "File extension not allowed."
     else:
@@ -26,7 +26,8 @@ def do_upload():
     upload.save(file_path)
     print('File successfully saved to {}.'.format(file_path))
     file_output_path = '{path}/{md5}_output_{file}.txt'.format(path=save_path,md5=rand, file=filename)
-    p = subprocess.Popen(['./Mold2', '-i',file_path,'-o',file_output_path],stdin=subprocess.PIPE,stdout=subprocess.PIPE)
+    file_report_path = '{path}/{md5}_report_{file}.txt'.format(path=save_path,mdt=rand, file=filename)
+    p = subprocess.Popen(['./Mold2', '-i',file_path,'-o',file_output_path,'-r',file_report_path],stdin=subprocess.PIPE,stdout=subprocess.PIPE)
     while p.poll() is None:
         line = p.stdout.readline()
         if line.startswith(b'Finished! Press any key'):
